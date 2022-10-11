@@ -1,6 +1,18 @@
 import Head from "next/head";
 
+import { supabase } from "../utils/client";
+
 export default function Home() {
+  async function loginHandler() {
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "github",
+      });
+    } catch (err) {
+      return err;
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
@@ -13,8 +25,11 @@ export default function Home() {
           Complaintinator
         </h1>
         <div className="flex justify-center mt-16">
-          <button className="bg-blue-500 text-white font-medium rounded-lg px-5 py-3">
-            Sign In with Google
+          <button
+            className="bg-blue-500 text-white font-medium rounded-lg px-5 py-3"
+            onClick={loginHandler}
+          >
+            Sign In with GitHub
           </button>
         </div>
       </main>
